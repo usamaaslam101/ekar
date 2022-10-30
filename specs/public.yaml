@@ -1,0 +1,81 @@
+openapi: 3.0.3
+info:
+  title: ekar test
+  description: ekar test API specifications
+  version: 1.0.0
+servers:
+- url: http://localhost:8080/api/v1
+tags:
+- name: Engine
+  description: main process handler
+
+
+paths:
+  /threads:
+    post  :
+      tags:
+      - Engine
+      summary: manipulate thread count
+      operationId: incrementThreads
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncrementThreadsRequest'
+        required: true
+      responses:
+        201:
+          description: threads incremented.
+        400:
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+  /counter/{counterValue}:
+    put:
+      tags:
+      - Engine
+      summary: update counter value
+      operationId: updateCounter
+      parameters:
+            - in: path
+              name: counterValue
+              schema:
+                type: integer
+                format: int64
+                minimum: 0
+                maximum: 100
+              required: true
+      responses:
+        200:
+          description: counter value updated.
+components:
+  schemas:
+    ErrorInfo:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    IncrementThreadsRequest:
+      type: object
+      properties:
+        incrementProducerCount:
+          type: integer
+          format: int64
+        incrementConsumerCount:
+          type: integer
+          format: int64
+      required:
+        - incrementConsumerCount
+        - incrementProducerCount
+    UpdateCounterRequest:
+      type: object
+      properties:
+        counter:
+          type: integer
+          format: int64
+      required:
+        - counter
