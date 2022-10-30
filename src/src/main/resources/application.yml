@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: ekar
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driverClassName: ${ekar.db.driverClassName:com.mysql.cj.jdbc.Driver}
+    hikari:
+      data-source-properties: stringtype=unspecified
+      maximum-pool-size: 20
+  sql:
+    init:
+      platform: MYSQL
+  flyway:
+    url: ${DB_URL}
+    locations: classpath:/db
+    lockRetryCount: 3
+    user: root
+    password: ekar
+server:
+  port: 8080
